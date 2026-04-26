@@ -7,36 +7,40 @@
 <title>loveubyae</title>
 
 <style>
+@font-face {
+  font-family: ios;
+  src: local("Helvetica Neue"), local("Arial");
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Helvetica Neue", Arial;
+  font-family: ios;
 }
 
 body {
-  height: 100vh;
+  background: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
+  height: 100vh;
 }
 
-/* PHONE */
+/* FULL SCREEN */
 .phone {
-  width: 320px;
-  height: 600px;
-  border-radius: 30px;
-  overflow: hidden;
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
   position: relative;
 }
 
 /* LOCKSCREEN */
 .lock {
-  position: relative;
   width: 100%;
   height: 100%;
   background: url('Untitled.jpg') center/cover no-repeat;
+  position: relative;
 }
 
 /* TOP BAR */
@@ -53,7 +57,8 @@ body {
   padding: 5px 10px;
 }
 
-.center-lock {
+/* LOCK ICON */
+.lock-icon {
   position: absolute;
   top: 5px;
   width: 100%;
@@ -63,39 +68,42 @@ body {
 /* TIME */
 .time {
   position: absolute;
-  top: 80px;
+  top: 90px;
   width: 100%;
   text-align: center;
+  font-size: 70px;
   color: white;
-  font-size: 60px;
+  font-weight: 200;
 }
 
 .date {
   position: absolute;
-  top: 150px;
+  top: 170px;
   width: 100%;
   text-align: center;
-  color: white;
   font-size: 18px;
+  color: white;
+  text-transform: capitalize;
 }
 
 /* NOTIFICATION */
 .notification {
   position: absolute;
-  bottom: 150px;
+  bottom: 160px;
   width: 90%;
   left: 5%;
   background: rgba(0,0,0,0.6);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   padding: 10px;
   color: white;
+  backdrop-filter: blur(10px);
 }
 
 .notification img {
   width: 50px;
   height: 50px;
-  border-radius: 5px;
+  border-radius: 6px;
   margin-right: 10px;
 }
 
@@ -110,27 +118,44 @@ body {
   width: 90%;
   left: 5%;
   height: 50px;
-  background: rgba(255,255,255,0.2);
   border-radius: 25px;
-  display: flex;
-  align-items: center;
-  padding: 5px;
+  background: rgba(255,255,255,0.2);
+  overflow: hidden;
 }
 
 .slider {
-  width: 40px;
-  height: 40px;
-  background: white;
-  border-radius: 10px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(#fff,#ddd);
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  position: absolute;
+  left: 0;
+}
+
+.slider::after {
+  content: "➜";
+  color: black;
+  font-size: 20px;
 }
 
 .slide-text {
   position: absolute;
   width: 100%;
   text-align: center;
+  line-height: 50px;
   color: #ccc;
   font-size: 14px;
+}
+
+/* PC MÁS GRANDE */
+@media (min-width: 768px) {
+  .phone {
+    max-width: 600px;
+  }
 }
 </style>
 </head>
@@ -140,21 +165,18 @@ body {
 <div class="phone">
   <div class="lock" id="lock">
 
-    <!-- TOP -->
     <div class="topbar">
       <span>diario</span>
       <span>17%</span>
     </div>
 
-    <div class="center-lock">🔒</div>
+    <div class="lock-icon">🔒</div>
 
-    <!-- TIME -->
     <div class="time" id="time"></div>
     <div class="date" id="date"></div>
 
-    <!-- NOTIFICATION -->
     <div class="notification">
-      <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
+      <img src="737e8593dfd9a0a5d2325a17effb85e.jpg">
       <div class="notification-text">
         <b>loveubyae</b><br>
         Por primera vez<br>
@@ -162,7 +184,6 @@ body {
       </div>
     </div>
 
-    <!-- SLIDE -->
     <div class="slide">
       <div class="slider" id="slider"></div>
       <div class="slide-text">slide to unlock</div>
@@ -172,7 +193,7 @@ body {
 </div>
 
 <script>
-// TIME REAL
+// TIEMPO EN ESPAÑOL
 function updateTime() {
   let now = new Date();
 
@@ -181,7 +202,7 @@ function updateTime() {
     minute: '2-digit'
   });
 
-  let date = now.toLocaleDateString('en-US', {
+  let date = now.toLocaleDateString('es-ES', {
     weekday: 'long',
     month: 'long',
     day: 'numeric'
@@ -193,7 +214,7 @@ function updateTime() {
 setInterval(updateTime, 1000);
 updateTime();
 
-// SLIDE
+// SLIDE FUNCIONAL
 let slider = document.getElementById("slider");
 let isDragging = false;
 
@@ -207,7 +228,7 @@ document.addEventListener("mousemove", (e) => {
   let x = e.clientX - rect.left;
 
   if (x > 0 && x < rect.width - 50) {
-    slider.style.transform = `translateX(${x}px)`;
+    slider.style.left = x + "px";
   }
 
   if (x > rect.width - 60) {
