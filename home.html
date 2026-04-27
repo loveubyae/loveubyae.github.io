@@ -1,164 +1,127 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>loveubyae</title>
-
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-  margin:0;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-}
-
-/* IPHONE */
-.phone{
-  position:relative;
-  height:90vh;
-  aspect-ratio:9/16;
-  max-width:420px;
+  height:100dvh;
+  background:url("Untitled FONDO COMPLETO DE LA WEB.jpg") center/cover no-repeat;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
   overflow:hidden;
-  border-radius:30px;
 }
 
-/* FONDO */
-.wallpaper{
+/* 📱 TELEFONO */
+.phone{
   position:absolute;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(1.25);
+
+  width:min(420px, 90vw);
+  aspect-ratio:9/16;
+
+  overflow:hidden;
+  background:url("Untitled homexcreen.jpg") center/cover no-repeat;
+  color:white;
 }
 
-/* APPS */
+/* overlay profundidad */
+.phone::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.08),
+    rgba(0,0,0,0.05),
+    rgba(0,0,0,0.35)
+  );
+  pointer-events:none;
+}
+
+/* GRID */
 .apps{
   position:absolute;
-  top:40px;
+  top:90px;
   width:100%;
+
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:25px;
+
   justify-items:center;
+  row-gap:45px;
 }
 
-/* ICONOS */
+/* APP */
 .app{
   display:flex;
   flex-direction:column;
   align-items:center;
   text-decoration:none;
   color:white;
-  font-size:12px;
-  user-select:none;
+  font-size:13px;
+  font-weight:500;
+
+  text-shadow:
+    0 1px 1px rgba(0,0,0,0.9),
+    0 -1px 0 rgba(255,255,255,0.2);
 }
 
+/* ICONO BASE */
 .app img{
-  width:60px;
-  height:60px;
+  width:90px;
+  height:90px;
   border-radius:22%;
-  transition:.2s;
+  position:relative;
+
+  /* 🔥 SOMBRA REAL IOS */
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.6),
-    inset 0 -2px 3px rgba(0,0,0,0.2),
-    0 4px 10px rgba(0,0,0,0.4);
+    0 10px 25px rgba(0,0,0,0.65),
+    inset 0 2px 4px rgba(255,255,255,0.7),
+    inset 0 -4px 8px rgba(0,0,0,0.35);
+
+  transition:.15s ease;
 }
 
-/* CLICK */
+/* ✨ BRILLO iOS 6 */
+.app img::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:50%;
+  border-radius:22%;
+
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.7),
+    rgba(255,255,255,0.15),
+    transparent
+  );
+
+  pointer-events:none;
+}
+
+/* 💥 CLICK MÁS REAL */
 .app:active img{
-  transform:scale(0.85);
+  transform:scale(0.82);
+  filter:brightness(1.15);
 }
 
-/* 🔥 JIGGLE LENTO */
-.apps.edit .app img{
-  animation:jiggle 1.4s infinite;
+/* 🧊 EFECTO VIDRIO SUAVE (DEPTH) */
+.app{
+  backdrop-filter: blur(1px);
 }
 
-@keyframes jiggle{
-  0%{ transform:rotate(-1deg);}
-  50%{ transform:rotate(1deg);}
-  100%{ transform:rotate(-1deg);}
+/* 📱 MOBILE EXACTO */
+@media (max-width:768px){
+  .phone{
+    width:100vw;
+    height:100dvh;
+    aspect-ratio:auto;
+
+    top:0;
+    left:0;
+    transform:none;
+  }
 }
 </style>
-</head>
-
-<body>
-
-<div class="phone">
-
-  <!-- FONDO -->
-  <img class="wallpaper" src="Untitled homexcreen.jpg">
-
-  <!-- APPS -->
-  <div class="apps">
-
-    <a class="app" href="https://www.youtube.com/@loveubyae">
-      <img src="youtube.png">
-      <span>YouTube</span>
-    </a>
-
-    <a class="app" href="https://www.instagram.com/loveubyae/">
-      <img src="instagram.png">
-      <span>Instagram</span>
-    </a>
-
-    <a class="app" href="https://music.apple.com/us/artist/loveubyae/1742559202">
-      <img src="music.png">
-      <span>Music</span>
-    </a>
-
-    <a class="app" href="https://soundcloud.com/loveubyae">
-      <img src="soundcloud.png">
-      <span>SoundCloud</span>
-    </a>
-
-    <!-- SEGUNDA FILA -->
-
-    <div class="app">
-      <img src="calculator.png">
-      <span>Calculator</span>
-    </div>
-
-    <div class="app">
-      <img src="clock.png">
-      <span>Clock</span>
-    </div>
-
-    <div class="app">
-      <img src="weather.png">
-      <span>Weather</span>
-    </div>
-
-    <div class="app">
-      <img src="maps.png">
-      <span>Maps</span>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- 🔥 SCRIPT JIGGLE -->
-<script>
-let pressTimer;
-
-document.querySelectorAll('.app').forEach(app => {
-
-  app.addEventListener('mousedown', () => {
-    pressTimer = setTimeout(() => {
-      document.querySelector('.apps').classList.toggle('edit');
-    }, 500);
-  });
-
-  app.addEventListener('mouseup', () => clearTimeout(pressTimer));
-  app.addEventListener('mouseleave', () => clearTimeout(pressTimer));
-
-});
-</script>
-
-</body>
-</html>
