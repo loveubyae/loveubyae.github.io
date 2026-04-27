@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <style>
 *{
@@ -30,7 +30,7 @@ body{
   background:url("Untitled.jpg") center/cover no-repeat;
 }
 
-/* 🎛️ NOISE */
+/* NOISE */
 .phone::before{
   content:"";
   position:absolute;
@@ -44,7 +44,6 @@ body{
     );
   opacity:0.4;
   mix-blend-mode:overlay;
-  pointer-events:none;
   z-index:3;
 }
 
@@ -118,27 +117,10 @@ body{
   border-radius:10px;
 }
 
-.notification-text{
-  flex:1;
-}
-
-.notification-text b{
-  font-size:17px;
-}
-
-.notification-text p{
-  font-size:15px;
-}
-
-.notification-time{
-  font-size:14px;
-  opacity:0.8;
-}
-
-/* 🔓 SLIDER (FIX PRO) */
+/* 🔓 SLIDER */
 .slider{
   position:absolute;
-  bottom:6vh;
+  bottom:calc(env(safe-area-inset-bottom) + 12px); /* 🔥 CLAVE */
   left:50%;
   transform:translateX(-50%);
   width:92%;
@@ -151,10 +133,6 @@ body{
   align-items:center;
   padding:10px;
   z-index:2;
-
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.25),
-    inset 0 -3px 6px rgba(0,0,0,0.8);
 }
 
 .slider-btn{
@@ -167,24 +145,6 @@ body{
   align-items:center;
   font-size:34px;
   color:#777;
-  box-shadow:
-    0 4px 10px rgba(0,0,0,0.7),
-    inset 0 1px 1px rgba(255,255,255,1);
-}
-
-.slider-text{
-  width:100%;
-  text-align:center;
-  color:rgba(255,255,255,0.4);
-  font-size:26px;
-  letter-spacing:1px;
-  animation:glow 2s infinite;
-}
-
-@keyframes glow{
-  0%{opacity:0.2;}
-  50%{opacity:1;}
-  100%{opacity:0.2;}
 }
 
 /* 📱 MOBILE FIX REAL */
@@ -196,14 +156,9 @@ body{
 
   .phone{
     width:100vw;
-    height:100vh;
+    height:100dvh; /* 🔥 en vez de 100vh */
     aspect-ratio:unset;
-    transform:scale(0.88);
-    transform-origin:top center;
-  }
-
-  .slider{
-    bottom:8vh;
+    transform:none; /* ❌ quitamos scale */
   }
 
   .time{
@@ -215,13 +170,7 @@ body{
   .date{
     font-size:20px;
   }
-}
 
-/* 💻 PC */
-@media (min-width:900px){
-  .phone{
-    transform:scale(1.08);
-  }
 }
 </style>
 </head>
@@ -240,45 +189,47 @@ body{
 
     <div class="notification">
       <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
-      <div class="notification-text">
-        <b>Por primera vez</b>
-        <p>Cancion y Video ya disponibles.</p>
+      <div>
+        <b>Por primera vez</b><br>
+        Cancion y Video ya disponibles.
       </div>
-      <div class="notification-time">ahora</div>
+      <div style="margin-left:auto;">ahora</div>
     </div>
 
     <div class="notification">
       <img src="e39f464b381314bc3eafa5fca98d3619.jpg">
-      <div class="notification-text">
-        <b>Cuidarte</b>
-        <p>Sabes que esto es pa' ti, solamente pa' ti</p>
+      <div>
+        <b>Cuidarte</b><br>
+        Sabes que esto es pa' ti
       </div>
-      <div class="notification-time">2m</div>
+      <div style="margin-left:auto;">2m</div>
     </div>
 
     <div class="notification">
       <img src="d1c1e261bac1d690afacc103cfc481d3.jpg">
-      <div class="notification-text">
-        <b>melodia</b>
-        <p>¿¿¿¿Me notas???!?</p>
+      <div>
+        <b>melodia</b><br>
+        ¿¿¿¿Me notas???!?
       </div>
-      <div class="notification-time">1d</div>
+      <div style="margin-left:auto;">1d</div>
     </div>
 
     <div class="notification">
       <img src="8761603c6a06cf054f7368b88f6c2dc6.jpg">
-      <div class="notification-text">
-        <b>#diario</b>
-        <p>Tu saldo esta a punto de terminar.</p>
+      <div>
+        <b>#diario</b><br>
+        Tu saldo esta a punto de terminar.
       </div>
-      <div class="notification-time">1sem</div>
+      <div style="margin-left:auto;">1sem</div>
     </div>
 
   </div>
 
   <div class="slider">
     <div class="slider-btn">→</div>
-    <div class="slider-text">slide to unlock</div>
+    <div style="width:100%; text-align:center; color:rgba(255,255,255,0.4); font-size:26px;">
+      slide to unlock
+    </div>
   </div>
 
 </div>
