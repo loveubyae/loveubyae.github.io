@@ -12,7 +12,7 @@
 }
 
 body{
-  min-height:100vh;
+  height:100dvh;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -24,29 +24,10 @@ body{
 /* 📱 TELEFONO */
 .phone{
   width:clamp(320px, 28vw, 480px);
-  aspect-ratio:9/16;
+  height:100dvh;
   position:relative;
   overflow:hidden;
   background:url("Untitled.jpg") center/cover no-repeat;
-
-  animation:fadeIn 0.8s ease;
-}
-
-/* NOISE */
-.phone::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:
-    repeating-radial-gradient(circle,
-      rgba(255,255,255,0.05) 0,
-      rgba(0,0,0,0.05) 1px,
-      transparent 1px,
-      transparent 2px
-    );
-  opacity:0.4;
-  mix-blend-mode:overlay;
-  z-index:3;
 }
 
 /* overlay */
@@ -56,9 +37,9 @@ body{
   inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(0,0,0,0.2),
+    rgba(0,0,0,0.15),
     rgba(0,0,0,0.05),
-    rgba(0,0,0,0.4)
+    rgba(0,0,0,0.3)
   );
 }
 
@@ -73,18 +54,9 @@ body{
   z-index:2;
 }
 
-.time-bg{
-  position:absolute;
-  top:-25px;
-  width:100%;
-  height:160px;
-  background:rgba(0,0,0,0.18);
-}
-
 .time{
   font-size:clamp(70px, 10vw, 95px);
   font-weight:100;
-  letter-spacing:-3px;
   color:#fff;
 }
 
@@ -99,7 +71,6 @@ body{
   top:30vh;
   width:100%;
   z-index:2;
-  animation:slideUp 0.9s ease;
 }
 
 .notification{
@@ -107,11 +78,12 @@ body{
   align-items:center;
   gap:14px;
   padding:16px;
-  background:rgba(40,40,40,0.75);
-  backdrop-filter:blur(4px);
+
+  background:rgba(40,40,40,0.55);
+  backdrop-filter:blur(2px);
+
   color:white;
-  border-top:1px solid rgba(255,255,255,0.25);
-  border-bottom:1px solid rgba(0,0,0,0.6);
+  border-top:1px solid rgba(255,255,255,0.15);
 }
 
 .notification img{
@@ -123,7 +95,7 @@ body{
 /* 🔓 SLIDER */
 .slider{
   position:absolute;
-  bottom:calc(env(safe-area-inset-bottom) + 12px);
+  bottom:20px;
   left:50%;
   transform:translateX(-50%);
   width:92%;
@@ -136,8 +108,6 @@ body{
   align-items:center;
   padding:10px;
   z-index:2;
-
-  animation:fadeIn 1.2s ease;
 }
 
 .slider-btn{
@@ -152,36 +122,13 @@ body{
   color:#777;
 
   position:relative;
+  touch-action:none;
+  user-select:none;
   cursor:pointer;
-  transition:transform 0.2s ease;
-}
-
-/* ✨ ANIMACIONES iOS 7 */
-@keyframes fadeIn{
-  from{
-    opacity:0;
-    filter:blur(10px);
-  }
-  to{
-    opacity:1;
-    filter:blur(0);
-  }
-}
-
-@keyframes slideUp{
-  from{
-    transform:translateY(40px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
 }
 
 /* 📱 MOBILE */
 @media (max-width:768px){
-
   body{
     align-items:flex-start;
   }
@@ -189,20 +136,7 @@ body{
   .phone{
     width:100vw;
     height:100dvh;
-    aspect-ratio:unset;
-    transform:none;
   }
-
-  .time{
-    font-size:clamp(90px, 18vw, 120px);
-    font-weight:200;
-    letter-spacing:-4px;
-  }
-
-  .date{
-    font-size:20px;
-  }
-
 }
 </style>
 </head>
@@ -212,7 +146,6 @@ body{
 <div class="phone">
 
   <div class="time-box">
-    <div class="time-bg"></div>
     <div class="time" id="time"></div>
     <div class="date" id="date"></div>
   </div>
@@ -221,37 +154,25 @@ body{
 
     <div class="notification">
       <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
-      <div>
-        <b>Por primera vez</b><br>
-        Cancion y Video ya disponibles.
-      </div>
+      <div><b>Por primera vez</b><br>Cancion y Video ya disponibles.</div>
       <div style="margin-left:auto;">ahora</div>
     </div>
 
     <div class="notification">
       <img src="e39f464b381314bc3eafa5fca98d3619.jpg">
-      <div>
-        <b>Cuidarte</b><br>
-        Sabes que esto es pa' ti
-      </div>
+      <div><b>Cuidarte</b><br>Sabes que esto es pa' ti</div>
       <div style="margin-left:auto;">2m</div>
     </div>
 
     <div class="notification">
       <img src="d1c1e261bac1d690afacc103cfc481d3.jpg">
-      <div>
-        <b>melodia</b><br>
-        ¿¿¿¿Me notas???!?
-      </div>
+      <div><b>melodia</b><br>¿¿¿¿Me notas???!?</div>
       <div style="margin-left:auto;">1d</div>
     </div>
 
     <div class="notification">
       <img src="8761603c6a06cf054f7368b88f6c2dc6.jpg">
-      <div>
-        <b>#diario</b><br>
-        Tu saldo esta a punto de terminar.
-      </div>
+      <div><b>#diario</b><br>Tu saldo esta a punto de terminar.</div>
       <div style="margin-left:auto;">1sem</div>
     </div>
 
@@ -270,80 +191,60 @@ body{
 function updateTime(){
   const now=new Date();
 
-  document.getElementById("time").textContent=
-    now.toLocaleTimeString("es-MX",{
-      hour:"2-digit",
-      minute:"2-digit",
-      hour12:false
-    });
+  document.getElementById("time").textContent =
+    now.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit",hour12:false});
 
-  document.getElementById("date").textContent=
-    now.toLocaleDateString("es-MX",{
-      weekday:"long",
-      day:"numeric",
-      month:"long"
-    });
+  document.getElementById("date").textContent =
+    now.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
 }
 setInterval(updateTime,1000);
 updateTime();
 
-/* 🔥 SLIDE FUNCIONAL */
-const slider = document.querySelector(".slider");
+/* 🔥 SLIDE FUNCIONAL REAL */
 const btn = document.querySelector(".slider-btn");
+const slider = document.querySelector(".slider");
 
-let isDragging = false;
+let dragging = false;
 let startX = 0;
-let currentX = 0;
-let maxSlide = slider.offsetWidth - btn.offsetWidth - 20;
 
-function start(e){
-  isDragging = true;
-  startX = (e.touches ? e.touches[0].clientX : e.clientX);
-}
+btn.addEventListener("pointerdown", e=>{
+  dragging = true;
+  startX = e.clientX;
+});
 
-function move(e){
-  if(!isDragging) return;
+window.addEventListener("pointermove", e=>{
+  if(!dragging) return;
 
-  currentX = (e.touches ? e.touches[0].clientX : e.clientX);
-  let diff = currentX - startX;
+  let dx = e.clientX - startX;
+  let max = slider.offsetWidth - btn.offsetWidth - 20;
 
-  if(diff < 0) diff = 0;
-  if(diff > maxSlide) diff = maxSlide;
+  if(dx < 0) dx = 0;
+  if(dx > max) dx = max;
 
-  btn.style.transform = `translateX(${diff}px)`;
+  btn.style.transform = `translateX(${dx}px)`;
 
-  if(diff >= maxSlide){
+  if(dx >= max){
     unlock();
   }
-}
+});
 
-function end(){
-  if(!isDragging) return;
-  isDragging = false;
+window.addEventListener("pointerup", ()=>{
+  if(!dragging) return;
+  dragging = false;
   btn.style.transform = "translateX(0)";
-}
+});
 
 function unlock(){
-  isDragging = false;
+  dragging = false;
 
   const phone = document.querySelector(".phone");
-  phone.style.transition = "all 0.6s ease";
-  phone.style.transform = "scale(1.1)";
+  phone.style.transition = "0.5s";
   phone.style.opacity = "0";
 
   setTimeout(()=>{
     window.location.href = "home.html";
-  },600);
+  },500);
 }
-
-/* eventos */
-btn.addEventListener("mousedown", start);
-document.addEventListener("mousemove", move);
-document.addEventListener("mouseup", end);
-
-btn.addEventListener("touchstart", start);
-document.addEventListener("touchmove", move);
-document.addEventListener("touchend", end);
 </script>
 
 </body>
