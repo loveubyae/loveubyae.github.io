@@ -77,10 +77,10 @@ body{
   font-size:clamp(14px,1.2vw,20px);
 }
 
-/* 🔥 NOTIFICATIONS (FIX DEFINITIVO) */
+/* 🔥 NOTIFICATIONS DESKTOP */
 .notifications{
   position:absolute;
-  top:220px; /* 🔥 YA NO vh → no se mueve */
+  top:220px;
   left:50%;
   transform:translateX(-50%);
   width:100%;
@@ -155,7 +155,6 @@ body{
   -webkit-text-fill-color:transparent;
 
   animation:shineMove 3.8s linear infinite;
-
   pointer-events:none;
 }
 
@@ -164,7 +163,7 @@ body{
   to{background-position:-100% 0;}
 }
 
-/* 📱 MOBILE */
+/* 📱 MOBILE FIX REAL */
 @media (max-width:768px){
   .phone{
     width:100vw;
@@ -173,6 +172,15 @@ body{
     top:0;
     left:0;
     transform:none;
+  }
+
+  /* 🔥 AQUÍ ESTÁ EL FIX */
+  .notifications{
+    top:28vh; /* 👈 ahora SI adapta al teléfono */
+    left:0;
+    transform:none;
+    max-width:none;
+    width:100%;
   }
 }
 </style>
@@ -232,7 +240,7 @@ function updateTime(){
 setInterval(updateTime,1000);
 updateTime();
 
-/* 🔥 SLIDER */
+/* SLIDER */
 const btn=document.querySelector(".slider-btn");
 const slider=document.querySelector(".slider");
 const text=document.querySelector(".slider-text");
