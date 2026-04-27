@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <style>
 *{
@@ -18,6 +18,7 @@ body{
   align-items:center;
   background:url("Untitled FONDO COMPLETO DE LA WEB.jpg") center/cover no-repeat;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  overflow:hidden;
 }
 
 /* 📱 TELEFONO */
@@ -27,39 +28,23 @@ body{
   position:relative;
   overflow:hidden;
   background:url("Untitled.jpg") center/cover no-repeat;
-  box-shadow:none;
 }
 
-/* 🎛️ NOISE iOS REAL */
+/* 🎛️ NOISE PRO */
 .phone::before{
   content:"";
   position:absolute;
   inset:0;
 
   background-image:
-    repeating-radial-gradient(
-      circle at 0 0,
-      rgba(255,255,255,0.06) 0px,
-      rgba(0,0,0,0.06) 1px,
+    repeating-radial-gradient(circle,
+      rgba(255,255,255,0.05) 0,
+      rgba(0,0,0,0.05) 1px,
       transparent 1px,
       transparent 2px
-    ),
-    repeating-radial-gradient(
-      circle at 30% 70%,
-      rgba(255,255,255,0.04) 0px,
-      rgba(0,0,0,0.04) 2px,
-      transparent 2px,
-      transparent 4px
-    ),
-    repeating-radial-gradient(
-      circle at 80% 20%,
-      rgba(255,255,255,0.03) 0px,
-      rgba(0,0,0,0.03) 3px,
-      transparent 3px,
-      transparent 6px
     );
 
-  opacity:0.55;
+  opacity:0.4;
   mix-blend-mode:overlay;
   pointer-events:none;
   z-index:3;
@@ -81,7 +66,7 @@ body{
 /* 🕒 */
 .time-box{
   position:absolute;
-  top:70px;
+  top:8vh;
   left:50%;
   transform:translateX(-50%);
   width:100%;
@@ -91,33 +76,29 @@ body{
 
 .time-bg{
   position:absolute;
-  top:-30px;
+  top:-25px;
   width:100%;
-  height:170px;
-  background:rgba(0,0,0,0.15);
+  height:160px;
+  background:rgba(0,0,0,0.18);
 }
 
 .time{
-  font-size:92px;
+  font-size:clamp(70px, 10vw, 95px);
   font-weight:100;
   letter-spacing:-3px;
-  color:#ffffff;
+  color:#fff;
 }
 
 .date{
-  font-size:22px;
-  font-weight:300;
-  color:#ffffff;
-  opacity:0.95;
+  font-size:clamp(16px, 2.5vw, 22px);
+  color:#fff;
 }
 
-/* 🔔 NOTIFICACIONES */
+/* 🔔 */
 .notifications{
   position:absolute;
-  top:260px;
+  top:30vh;
   width:100%;
-  display:flex;
-  flex-direction:column;
   z-index:2;
 }
 
@@ -125,7 +106,7 @@ body{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:16px 18px;
+  padding:16px;
 
   background:rgba(40,40,40,0.75);
   backdrop-filter:blur(4px);
@@ -159,41 +140,40 @@ body{
   opacity:0.8;
 }
 
-/* 🔓 SLIDER */
+/* 🔓 */
 .slider{
   position:absolute;
-  bottom:35px;
+  bottom:4vh;
   left:50%;
   transform:translateX(-50%);
-  width:92%;
-  height:80px;
+  width:90%;
+  height:75px;
 
   border-radius:20px;
-
-  background:linear-gradient(to bottom,#3a3a3a,#000);
-
-  box-shadow:
-    inset 0 1px 2px rgba(255,255,255,0.2),
-    inset 0 -2px 5px rgba(0,0,0,0.7);
+  background:linear-gradient(#3a3a3a,#000);
 
   display:flex;
   align-items:center;
   padding:8px;
   z-index:2;
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.2),
+    inset 0 -2px 5px rgba(0,0,0,0.7);
 }
 
 .slider-btn{
-  width:90px;
-  height:64px;
+  width:85px;
+  height:60px;
   border-radius:16px;
 
-  background:linear-gradient(to bottom,#fff,#cfcfcf);
+  background:linear-gradient(#fff,#cfcfcf);
 
   display:flex;
   justify-content:center;
   align-items:center;
 
-  font-size:32px;
+  font-size:30px;
   color:#777;
 
   box-shadow:
@@ -205,8 +185,7 @@ body{
   width:100%;
   text-align:center;
   color:rgba(255,255,255,0.35);
-  font-size:24px;
-  letter-spacing:1px;
+  font-size:22px;
   animation:glow 2s infinite;
 }
 
@@ -214,6 +193,30 @@ body{
   0%{opacity:0.2;}
   50%{opacity:1;}
   100%{opacity:0.2;}
+}
+
+/* 📱 MOBILE FULLSCREEN */
+@media (max-width:768px){
+
+  body{
+    align-items:flex-start;
+  }
+
+  .phone{
+    width:100vw;
+    height:100vh;
+    aspect-ratio:unset;
+  }
+
+}
+
+/* 💻 PC SCALE BONITO */
+@media (min-width:900px){
+
+  .phone{
+    transform:scale(1.15);
+  }
+
 }
 </style>
 </head>
