@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Safari</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  height:100dvh;
+  background:black;
+  font-family:-apple-system;
+  color:white;
+  overflow:hidden;
+}
+
+/* 📱 PHONE */
+.phone{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(1.25);
+  width:min(420px, 90vw);
+  aspect-ratio:9/16;
+  background:#050505;
+  overflow:hidden;
+}
+
+/* 🔝 BAR */
+.topbar{
+  height:60px;
+  background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  color:#888;
+  border-bottom:1px solid #222;
+}
+
+/* BACK */
+.back{
+  position:absolute;
+  top:15px;
+  left:12px;
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+  opacity:.7;
+}
+
+/* RANDOM BTN */
+.random{
+  position:absolute;
+  top:15px;
+  right:12px;
+  font-size:13px;
+  opacity:.7;
+  cursor:pointer;
+}
+
+/* CONTENT */
+.content{
+  position:absolute;
+  top:60px;
+  bottom:0;
+  overflow-y:auto;
+  padding:15px;
+}
+
+/* LINKS */
+.link{
+  display:block;
+  padding:10px;
+  margin-bottom:8px;
+  border-radius:6px;
+  background:#0d0d0d;
+  text-decoration:none;
+  color:#aaa;
+  font-size:12px;
+  opacity:0;
+  transform:translateY(10px);
+
+  transition:.3s;
+  border:1px solid #1a1a1a;
+}
+
+.link.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.link:hover{
+  background:#151515;
+  color:white;
+}
+
+/* GLITCH FLASH */
+.glitch{
+  animation:glitch 0.2s;
+}
+
+@keyframes glitch{
+  0%{filter:brightness(2);}
+  50%{filter:invert(1);}
+  100%{filter:none;}
+}
+
+/* SECRET MESSAGE */
+.secret{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  font-size:10px;
+  opacity:0.1;
+}
+
+/* MOBILE */
+@media (max-width:768px){
+  .phone{
+    width:100vw;
+    height:100dvh;
+    transform:none;
+    top:0;
+    left:0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+  <a class="back" href="home.html">← back</a>
+  <div class="random" onclick="randomLink()">random</div>
+
+  <div class="topbar">
+    searching...
+  </div>
+
+  <div class="content" id="linksContainer"></div>
+
+  <div class="secret">you shouldn't be here</div>
+
+</div>
+
+<!-- 🔊 SONIDO -->
+<audio id="clickSound" src="click.mp3"></audio>
+<audio id="ambience" src="ambient.mp3" loop></audio>
+
+<script>
+const links = [
+  "https://freesound.org/people/HoBoTrails/sounds/424964/",
+  "http://www.insecam.org/en/bytag/Computer/?page=1",
+  "https://picvoid.tumblr.com/archive",
+  "https://youtu.be/3P-8s2e6AXg?t=157",
+  "https://xenero.webs.uvigo.es/profesorado/beatriz_suarez/ciborg.pdf",
+  "https://www.tumblr.com/deathandmysticism",
+  "https://youtu.be/0WjDrQ0IhBw?t=76",
+  "https://www.youtube.com/watch?v=q6wDm9C5YEo",
+  "https://twitter.com/StrangestMedia",
+  "https://webcamtears.tumblr.com/",
+  "https://t4s.tumblr.com/",
+  "https://www.cleverbot.com/"
+];
+
+const container = document.getElementById("linksContainer");
+const sound = document.getElementById("clickSound");
+const ambience = document.getElementById("ambience");
+
+/* 🔊 start ambient */
+setTimeout(()=>{
+  ambience.volume = 0.2;
+  ambience.play();
+},1000);
+
+/* 🔀 shuffle */
+links.sort(()=>Math.random()-0.5);
+
+/* 🧠 render slowly */
+links.forEach((link, i)=>{
+  const a = document.createElement("a");
+  a.href = link;
+  a.target = "_blank";
+  a.className = "link";
+  a.textContent = link;
+
+  a.addEventListener("click", ()=>{
+    sound.currentTime = 0;
+    sound.play();
+  });
+
+  container.appendChild(a);
+
+  setTimeout(()=>{
+    a.classList.add("show");
+  }, i * 120);
+});
+
+/* 🎲 RANDOM */
+function randomLink(){
+  const r = links[Math.floor(Math.random()*links.length)];
+  document.body.classList.add("glitch");
+  setTimeout(()=>document.body.classList.remove("glitch"),200);
+  window.open(r, "_blank");
+}
+</script>
+
+</body>
+</html>
