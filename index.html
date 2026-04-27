@@ -30,7 +30,7 @@ body{
   background:url("Untitled.jpg") center/cover no-repeat;
 }
 
-/* 🎛️ NOISE PRO */
+/* 🎛️ NOISE */
 .phone::before{
   content:"";
   position:absolute;
@@ -66,7 +66,7 @@ body{
 /* 🕒 */
 .time-box{
   position:absolute;
-  top:8vh;
+  top:6vh; /* 🔥 subido */
   left:50%;
   transform:translateX(-50%);
   width:100%;
@@ -195,7 +195,7 @@ body{
   100%{opacity:0.2;}
 }
 
-/* 📱 MOBILE FULLSCREEN */
+/* 📱 MOBILE */
 @media (max-width:768px){
 
   body{
@@ -206,17 +206,27 @@ body{
     width:100vw;
     height:100vh;
     aspect-ratio:unset;
+    transform:scale(0.90);
+    transform-origin:top center;
+  }
+
+  .time{
+    font-size:clamp(90px, 18vw, 120px);
+    font-weight:200;
+    letter-spacing:-4px;
+  }
+
+  .date{
+    font-size:20px;
   }
 
 }
 
-/* 💻 PC SCALE BONITO */
+/* 💻 PC */
 @media (min-width:900px){
-
   .phone{
-    transform:scale(1.15);
+    transform:scale(1.08); /* 🔥 más pequeño */
   }
-
 }
 </style>
 </head>
@@ -236,35 +246,35 @@ body{
     <div class="notification">
       <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
       <div class="notification-text">
-        <b>loveubyae</b>
-        <p>Por primera vez<br>nueva canción disponible</p>
+        <b>Por primera vez</b>
+        <p>Cancion y Video ya disponibles.</p>
       </div>
       <div class="notification-time">ahora</div>
     </div>
 
     <div class="notification">
-      <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
+      <img src="e39f464b381314bc3eafa5fca98d3619.jpg">
       <div class="notification-text">
-        <b>Spotify</b>
-        <p>Ya disponible en tu perfil</p>
+        <b>Cuidarte</b>
+        <p>Sabes que esto es pa' ti, solamente pa' ti</p>
       </div>
       <div class="notification-time">2m</div>
     </div>
 
     <div class="notification">
-      <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
+      <img src="d1c1e261bac1d690afacc103cfc481d3.jpg">
       <div class="notification-text">
-        <b>YouTube</b>
-        <p>Nuevo video publicado 🔥</p>
+        <b>melodia</b>
+        <p>¿¿¿¿Me notas???!?</p>
       </div>
       <div class="notification-time">1d</div>
     </div>
 
     <div class="notification">
-      <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
+      <img src="8761603c6a06cf054f7368b88f6c2dc6.jpg">
       <div class="notification-text">
-        <b>Instagram</b>
-        <p>Nuevo seguidor</p>
+        <b>#diario</b>
+        <p>Tu saldo esta a punto de terminar.</p>
       </div>
       <div class="notification-time">1sem</div>
     </div>
