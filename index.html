@@ -1,16 +1,150 @@
-<style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-/* 🔓 SLIDER MEJORADO */
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:url("Untitled FONDO COMPLETO DE LA WEB.jpg") center/cover no-repeat;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+  overflow:hidden;
+}
+
+/* 📱 TELEFONO */
+.phone{
+  width:clamp(320px, 28vw, 480px);
+  aspect-ratio:9/16;
+  position:relative;
+  overflow:hidden;
+  background:url("Untitled.jpg") center/cover no-repeat;
+}
+
+/* 🎛️ NOISE */
+.phone::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-radial-gradient(circle,
+      rgba(255,255,255,0.05) 0,
+      rgba(0,0,0,0.05) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  opacity:0.4;
+  mix-blend-mode:overlay;
+  pointer-events:none;
+  z-index:3;
+}
+
+/* overlay */
+.phone::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2),
+    rgba(0,0,0,0.05),
+    rgba(0,0,0,0.4)
+  );
+}
+
+/* 🕒 */
+.time-box{
+  position:absolute;
+  top:6vh;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  text-align:center;
+  z-index:2;
+}
+
+.time-bg{
+  position:absolute;
+  top:-25px;
+  width:100%;
+  height:160px;
+  background:rgba(0,0,0,0.18);
+}
+
+.time{
+  font-size:clamp(70px, 10vw, 95px);
+  font-weight:100;
+  letter-spacing:-3px;
+  color:#fff;
+}
+
+.date{
+  font-size:clamp(16px, 2.5vw, 22px);
+  color:#fff;
+}
+
+/* 🔔 */
+.notifications{
+  position:absolute;
+  top:30vh;
+  width:100%;
+  z-index:2;
+}
+
+.notification{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  background:rgba(40,40,40,0.75);
+  backdrop-filter:blur(4px);
+  color:white;
+  border-top:1px solid rgba(255,255,255,0.25);
+  border-bottom:1px solid rgba(0,0,0,0.6);
+}
+
+.notification img{
+  width:60px;
+  height:60px;
+  border-radius:10px;
+}
+
+.notification-text{
+  flex:1;
+}
+
+.notification-text b{
+  font-size:17px;
+}
+
+.notification-text p{
+  font-size:15px;
+}
+
+.notification-time{
+  font-size:14px;
+  opacity:0.8;
+}
+
+/* 🔓 SLIDER (FIX PRO) */
 .slider{
   position:absolute;
-  bottom:6vh; /* 🔥 antes 4vh → ahora no se corta */
+  bottom:6vh;
   left:50%;
   transform:translateX(-50%);
   width:92%;
-  height:95px; /* 🔥 más grande */
+  height:95px;
 
   border-radius:26px;
-
   background:linear-gradient(#3a3a3a,#000);
 
   display:flex;
@@ -23,48 +157,154 @@
     inset 0 -3px 6px rgba(0,0,0,0.8);
 }
 
-/* BOTÓN MÁS GRANDE */
 .slider-btn{
   width:105px;
   height:75px;
   border-radius:20px;
-
   background:linear-gradient(#fff,#cfcfcf);
-
   display:flex;
   justify-content:center;
   align-items:center;
-
-  font-size:34px; /* 🔥 más gordita flecha */
+  font-size:34px;
   color:#777;
-
   box-shadow:
     0 4px 10px rgba(0,0,0,0.7),
     inset 0 1px 1px rgba(255,255,255,1);
 }
 
-/* TEXTO MÁS PRO */
 .slider-text{
   width:100%;
   text-align:center;
   color:rgba(255,255,255,0.4);
-  font-size:26px; /* 🔥 más grande */
+  font-size:26px;
   letter-spacing:1px;
   animation:glow 2s infinite;
 }
 
-/* 📱 FIX REAL DEL CORTE */
+@keyframes glow{
+  0%{opacity:0.2;}
+  50%{opacity:1;}
+  100%{opacity:0.2;}
+}
+
+/* 📱 MOBILE FIX REAL */
 @media (max-width:768px){
+
+  body{
+    align-items:flex-start;
+  }
 
   .phone{
     width:100vw;
     height:100vh;
-    transform:scale(0.88); /* 🔥 un pelín menos para evitar corte */
+    aspect-ratio:unset;
+    transform:scale(0.88);
+    transform-origin:top center;
   }
 
   .slider{
-    bottom:8vh; /* 🔥 más espacio abajo */
+    bottom:8vh;
   }
 
+  .time{
+    font-size:clamp(90px, 18vw, 120px);
+    font-weight:200;
+    letter-spacing:-4px;
+  }
+
+  .date{
+    font-size:20px;
+  }
+}
+
+/* 💻 PC */
+@media (min-width:900px){
+  .phone{
+    transform:scale(1.08);
+  }
 }
 </style>
+</head>
+
+<body>
+
+<div class="phone">
+
+  <div class="time-box">
+    <div class="time-bg"></div>
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <div class="notifications">
+
+    <div class="notification">
+      <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
+      <div class="notification-text">
+        <b>Por primera vez</b>
+        <p>Cancion y Video ya disponibles.</p>
+      </div>
+      <div class="notification-time">ahora</div>
+    </div>
+
+    <div class="notification">
+      <img src="e39f464b381314bc3eafa5fca98d3619.jpg">
+      <div class="notification-text">
+        <b>Cuidarte</b>
+        <p>Sabes que esto es pa' ti, solamente pa' ti</p>
+      </div>
+      <div class="notification-time">2m</div>
+    </div>
+
+    <div class="notification">
+      <img src="d1c1e261bac1d690afacc103cfc481d3.jpg">
+      <div class="notification-text">
+        <b>melodia</b>
+        <p>¿¿¿¿Me notas???!?</p>
+      </div>
+      <div class="notification-time">1d</div>
+    </div>
+
+    <div class="notification">
+      <img src="8761603c6a06cf054f7368b88f6c2dc6.jpg">
+      <div class="notification-text">
+        <b>#diario</b>
+        <p>Tu saldo esta a punto de terminar.</p>
+      </div>
+      <div class="notification-time">1sem</div>
+    </div>
+
+  </div>
+
+  <div class="slider">
+    <div class="slider-btn">→</div>
+    <div class="slider-text">slide to unlock</div>
+  </div>
+
+</div>
+
+<script>
+function updateTime(){
+  const now=new Date();
+
+  document.getElementById("time").textContent=
+    now.toLocaleTimeString("es-MX",{
+      hour:"2-digit",
+      minute:"2-digit",
+      hour12:false
+    });
+
+  document.getElementById("date").textContent=
+    now.toLocaleDateString("es-MX",{
+      weekday:"long",
+      day:"numeric",
+      month:"long"
+    });
+}
+
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+</body>
+</html>
