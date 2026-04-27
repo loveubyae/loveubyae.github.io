@@ -1,10 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>loveubyae</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   height:100dvh;
   background:url("Untitled FONDO COMPLETO DE LA WEB.jpg") center/cover no-repeat;
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+
   overflow:hidden;
 }
 
@@ -23,31 +40,17 @@ body{
   color:white;
 }
 
-/* overlay profundidad */
-.phone::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.08),
-    rgba(0,0,0,0.05),
-    rgba(0,0,0,0.35)
-  );
-  pointer-events:none;
-}
-
 /* GRID */
 .apps{
   position:absolute;
-  top:90px;
+  top:95px;
   width:100%;
 
   display:grid;
   grid-template-columns:repeat(4,1fr);
 
   justify-items:center;
-  row-gap:45px;
+  row-gap:40px;
 }
 
 /* APP */
@@ -57,62 +60,33 @@ body{
   align-items:center;
   text-decoration:none;
   color:white;
+
   font-size:13px;
   font-weight:500;
 
-  text-shadow:
-    0 1px 1px rgba(0,0,0,0.9),
-    0 -1px 0 rgba(255,255,255,0.2);
+  text-shadow:0 1px 2px rgba(0,0,0,0.9);
 }
 
-/* ICONO BASE */
+/* 🔥 ICONOS LIMPIOS (SIN BORDE FAKE) */
 .app img{
-  width:90px;
-  height:90px;
+  width:100px;
+  height:100px;
   border-radius:22%;
-  position:relative;
 
-  /* 🔥 SOMBRA REAL IOS */
-  box-shadow:
-    0 10px 25px rgba(0,0,0,0.65),
-    inset 0 2px 4px rgba(255,255,255,0.7),
-    inset 0 -4px 8px rgba(0,0,0,0.35);
+  object-fit:cover;
+
+  /* sombra leve como iOS */
+  box-shadow:0 6px 12px rgba(0,0,0,0.35);
 
   transition:.15s ease;
 }
 
-/* ✨ BRILLO iOS 6 */
-.app img::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:50%;
-  border-radius:22%;
-
-  background:linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.7),
-    rgba(255,255,255,0.15),
-    transparent
-  );
-
-  pointer-events:none;
-}
-
-/* 💥 CLICK MÁS REAL */
+/* CLICK */
 .app:active img{
-  transform:scale(0.82);
-  filter:brightness(1.15);
+  transform:scale(0.88);
 }
 
-/* 🧊 EFECTO VIDRIO SUAVE (DEPTH) */
-.app{
-  backdrop-filter: blur(1px);
-}
-
-/* 📱 MOBILE EXACTO */
+/* 📱 MOBILE */
 @media (max-width:768px){
   .phone{
     width:100vw;
@@ -123,5 +97,66 @@ body{
     left:0;
     transform:none;
   }
+
+  .app img{
+    width:85px;
+    height:85px;
+  }
 }
 </style>
+</head>
+
+<body>
+
+<div class="phone">
+
+  <div class="apps">
+
+    <a class="app" href="https://www.youtube.com/@loveubyae">
+      <img src="yt.png">
+      <span>YouTube</span>
+    </a>
+
+    <a class="app" href="https://www.instagram.com/loveubyae/">
+      <img src="insta.png">
+      <span>Instagram</span>
+    </a>
+
+    <a class="app" href="https://music.apple.com/us/artist/loveubyae/1742559202">
+      <img src="png-clipart-ios-7-icons-updated-music-music-icon.png">
+      <span>Music</span>
+    </a>
+
+    <a class="app" href="https://soundcloud.com/loveubyae">
+      <img src="soundcloud.png">
+      <span>SoundCloud</span>
+    </a>
+
+    <!-- SEGUNDA FILA -->
+
+    <div class="app">
+      <img src="purepng.com-calculator-icon-ios-7symbolsiconsapple-iosiosios-7-iconsios-7-721522596499jdlnz.png">
+      <span>Calculator</span>
+    </div>
+
+    <div class="app">
+      <img src="clock.png">
+      <span>Clock</span>
+    </div>
+
+    <div class="app">
+      <img src="weather .png">
+      <span>Weather</span>
+    </div>
+
+    <div class="app">
+      <img src="apple-maps.png">
+      <span>Maps</span>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
