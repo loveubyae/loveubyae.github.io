@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   height:100dvh;
@@ -23,12 +19,13 @@ body{
 
 /* 📱 TELEFONO */
 .phone{
-  width:clamp(320px, 28vw, 480px);
+  width:clamp(320px,28vw,480px);
   height:100dvh;
   position:relative;
   overflow:hidden;
   background:url("Untitled.jpg") center/cover no-repeat;
   color:white;
+  will-change: transform, opacity, filter;
 }
 
 /* overlay */
@@ -44,7 +41,7 @@ body{
   );
 }
 
-/* 🕒 HORA */
+/* 🕒 */
 .time-box{
   position:absolute;
   top:6vh;
@@ -64,15 +61,30 @@ body{
 }
 
 .time{
-  font-size:clamp(70px, 10vw, 95px);
+  font-size:clamp(70px,10vw,95px);
   font-weight:100;
 }
 
 .date{
-  font-size:clamp(16px, 2.5vw, 22px);
+  font-size:clamp(16px,2.5vw,22px);
 }
 
-/* 🔔 NOTIFICATIONS (igual) */
+/* 🔥 HORA MÁS GRUESA EN MOBILE */
+@media (max-width:768px){
+  body{align-items:flex-start;}
+
+  .phone{
+    width:100vw;
+    height:100dvh;
+  }
+
+  .time{
+    font-weight:300;
+    letter-spacing:-2px;
+  }
+}
+
+/* 🔔 NOTIFICATIONS */
 .notifications{
   position:absolute;
   top:30vh;
@@ -125,9 +137,10 @@ body{
   color:#777;
   touch-action:none;
   cursor:pointer;
+  z-index:3;
 }
 
-/* ✨ TEXTO CON BRILLO REAL */
+/* ✨ TEXTO */
 .slider-text{
   width:100%;
   text-align:center;
@@ -146,24 +159,15 @@ body{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 
-  animation:shineMove 3.6s linear infinite;
+  animation:shineMove 3.8s linear infinite;
+
+  pointer-events:none;
 }
 
+/* brillo dirección correcta */
 @keyframes shineMove{
   from{background-position:100% 0;}
   to{background-position:-100% 0;}
-}
-
-/* 📱 MOBILE */
-@media (max-width:768px){
-  body{
-    align-items:flex-start;
-  }
-
-  .phone{
-    width:100vw;
-    height:100dvh;
-  }
 }
 </style>
 </head>
@@ -226,9 +230,10 @@ function updateTime(){
 setInterval(updateTime,1000);
 updateTime();
 
-/* 🔥 SLIDE FUNCIONAL */
+/* 🔥 SLIDE */
 const btn=document.querySelector(".slider-btn");
 const slider=document.querySelector(".slider");
+const text=document.querySelector(".slider-text");
 
 let dragging=false,startX=0;
 
@@ -248,15 +253,32 @@ window.addEventListener("pointermove",e=>{
 
   btn.style.transform=`translateX(${dx}px)`;
 
-  if(dx>=max){
-    window.location.href="home.html";
-  }
+  // 🔥 fade del texto
+  let progress=dx/max;
+  text.style.opacity=1-progress;
+
+  if(dx>=max)unlock();
 });
 
 window.addEventListener("pointerup",()=>{
   dragging=false;
   btn.style.transform="translateX(0)";
+  text.style.opacity="1";
 });
+
+/* 🔥 ANIMACIÓN iOS */
+function unlock(){
+  const phone=document.querySelector(".phone");
+
+  phone.style.transition="transform 0.7s cubic-bezier(0.25,0.8,0.25,1), opacity 0.5s ease, filter 0.5s ease";
+  phone.style.transform="translateY(-120px) scale(1.03)";
+  phone.style.opacity="0";
+  phone.style.filter="blur(6px)";
+
+  setTimeout(()=>{
+    window.location.href="home.html";
+  },650);
+}
 </script>
 
 </body>
