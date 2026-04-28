@@ -28,7 +28,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
 }
 
-/* 📱 PHONE (PC NORMAL) */
+/* 📱 PC (NO TOCAR) */
 .phone{
   position:absolute;
   top:50%;
@@ -60,7 +60,7 @@ body{
   pointer-events:none;
 }
 
-/* 🕒 TIME */
+/* TIME */
 .time-box{
   position:absolute;
   top:6%;
@@ -81,15 +81,13 @@ body{
 
 .time{
   font-size:clamp(80px,7vw,96px);
-  font-weight:549;
-  letter-spacing:1px;
 }
 
 .date{
   font-size:clamp(20px,1.2vw,20px);
 }
 
-/* 🔔 NOTIFICATIONS */
+/* NOTIFICATIONS */
 .notifications{
   position:absolute;
   top:220px;
@@ -106,9 +104,7 @@ body{
   gap:14px;
   padding:16px;
   background:rgba(40,40,40,0.60);
-  backdrop-filter:blur(1.3px);
   color:white;
-  border-top:1px solid rgba(255,255,255,0.15);
 }
 
 .notification img{
@@ -117,18 +113,15 @@ body{
   border-radius:10px;
 }
 
-/* 🔓 BAR */
+/* UNLOCK */
 .unlock-bar{
   position:absolute;
   bottom:0;
-  left:0;
   width:100%;
   height:90px;
-  background:rgba(0,0,0,0.88);
-  z-index:3;
+  background:rgba(0,0,0,0.9);
 }
 
-/* TEXT EFFECT */
 .swipe-text{
   position:absolute;
   bottom:28px;
@@ -136,45 +129,46 @@ body{
   text-align:center;
   font-size:26px;
 
-  background: linear-gradient(
+  background:linear-gradient(
     90deg,
-    rgba(255,255,255,0.2) 0%,
-    rgba(255,255,255,0.2) 40%,
-    rgba(255,255,255,0.9) 50%,
-    rgba(255,255,255,0.2) 60%,
-    rgba(255,255,255,0.2) 100%
+    rgba(255,255,255,0.2),
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.2)
   );
 
-  background-size:200% 100%;
+  background-size:200%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-
-  animation:shineMove 4s linear infinite;
+  animation:shine 3s linear infinite;
 }
 
-@keyframes shineMove{
-  from{background-position:100% 0;}
-  to{background-position:-100% 0;}
+@keyframes shine{
+  from{background-position:100%;}
+  to{background-position:-100%;}
 }
 
-/* 📱 MOBILE FIX REAL */
+/* 🔥 FIX REAL MOBILE */
 @media (max-width:768px){
+
+  body{
+    overflow:hidden;
+  }
+
   .phone{
-    width:100vw;
-    height:calc(var(--vh, 1vh) * 100);
-    aspect-ratio:auto;
-    top:0;
-    left:0;
-    transform:none;
+    position:fixed;   /* 🔥 CLAVE */
+    inset:0;          /* 🔥 ocupa toda la pantalla REAL */
+    width:100%;
+    height:100%;
+    transform:none;   /* 🔥 quita centrado bug */
   }
 
   .notifications{
-    top:28vh;
     left:0;
     transform:none;
     max-width:none;
     width:100%;
   }
+
 }
 </style>
 </head>
@@ -190,7 +184,6 @@ body{
   </div>
 
   <div class="notifications">
-
     <div class="notification">
       <img src="737e8593dfd9a0a5d2325a17eff8b85e.jpg">
       <div><b>Por primera vez</b><br>Cancion y Video ya disponibles.</div>
@@ -214,7 +207,6 @@ body{
       <div><b>#diario</b><br>Tu saldo esta a punto de terminar.</div>
       <div style="margin-left:auto;">1sem</div>
     </div>
-
   </div>
 
   <div class="unlock-bar" id="unlockArea">
@@ -233,64 +225,30 @@ setInterval(updateTime,1000);
 updateTime();
 
 /* SWIPE */
-const unlockArea = document.getElementById("unlockArea");
+let startY=0,isSwiping=false;
 
-let startY = 0;
-let isSwiping = false;
-
-unlockArea.addEventListener("touchstart", e=>{
-  startY = e.touches[0].clientY;
-  isSwiping = true;
+unlockArea.addEventListener("touchstart",e=>{
+  startY=e.touches[0].clientY;
+  isSwiping=true;
 });
 
-unlockArea.addEventListener("touchmove", e=>{
-  if(!isSwiping) return;
-
-  let currentY = e.touches[0].clientY;
-  let diff = startY - currentY;
-
-  if(diff > 25){
+unlockArea.addEventListener("touchmove",e=>{
+  if(!isSwiping)return;
+  let diff=startY-e.touches[0].clientY;
+  if(diff>25){
     unlock();
-    isSwiping = false;
+    isSwiping=false;
   }
-});
-
-unlockArea.addEventListener("touchend", ()=>{
-  isSwiping = false;
-});
-
-/* PC */
-unlockArea.addEventListener("mousedown", e=>{
-  startY = e.clientY;
-  isSwiping = true;
-});
-
-unlockArea.addEventListener("mousemove", e=>{
-  if(!isSwiping) return;
-
-  let diff = startY - e.clientY;
-
-  if(diff > 25){
-    unlock();
-    isSwiping = false;
-  }
-});
-
-unlockArea.addEventListener("mouseup", ()=>{
-  isSwiping = false;
 });
 
 function unlock(){
   const phone=document.querySelector(".phone");
-
-  phone.style.transition="transform 0.7s cubic-bezier(0.25,0.8,0.25,1), opacity 0.5s ease, filter 0.5s ease";
-  phone.style.transform="translateY(-120px) scale(1.03)";
+  phone.style.transform="translateY(-120px)";
   phone.style.opacity="0";
-  phone.style.filter="blur(6px)";
 
   setTimeout(()=>{
     window.location.href="home.html";
-  },650);
+  },500);
 }
 </script>
 
