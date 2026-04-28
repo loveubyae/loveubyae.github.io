@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cuidarte</title>
-<link rel="icon" type="image/jpeg" href="favicon.jpg">
-<link rel="apple-touch-icon" href="favicon.jpg">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -30,7 +28,7 @@ body{
   overflow:hidden;
   background:black;
 
-  transition:transform .35s ease, opacity .3s ease;
+  transition:transform .25s ease, opacity .25s ease;
 }
 
 /* IMAGEN */
@@ -57,9 +55,7 @@ body{
 <body>
 
 <div class="phone" id="phone">
-
   <img src="notasfoto.jpg">
-
 </div>
 
 <script>
@@ -69,15 +65,20 @@ let startX = 0;
 let currentX = 0;
 let isDragging = false;
 
-/* 👉 INICIO */
+/* 👉 SOLO desde el borde izquierdo */
 phone.addEventListener("touchstart", e=>{
   startX = e.touches[0].clientX;
-  isDragging = true;
+
+  if(startX < 30){ // 🔥 zona edge
+    isDragging = true;
+  }
 });
 
-/* 👉 MOVIMIENTO */
+/* 👉 mover */
 phone.addEventListener("touchmove", e=>{
   if(!isDragging) return;
+
+  e.preventDefault(); // 🔥 bloquea gesto del navegador
 
   currentX = e.touches[0].clientX;
   let diff = currentX - startX;
@@ -85,21 +86,23 @@ phone.addEventListener("touchmove", e=>{
   if(diff > 0){
     phone.style.transform = `translateX(${diff}px)`;
   }
-});
+},{ passive:false });
 
-/* 👉 SOLTAR */
+/* 👉 soltar */
 phone.addEventListener("touchend", ()=>{
+  if(!isDragging) return;
+
   isDragging = false;
 
   let diff = currentX - startX;
 
-  if(diff > 80){ // 🔥 sensibilidad
+  if(diff > 100){
     phone.style.transform = "translateX(100%)";
     phone.style.opacity = "0";
 
     setTimeout(()=>{
       window.location.href = "home.html";
-    },300);
+    },250);
   }else{
     phone.style.transform = "translateX(0)";
   }
