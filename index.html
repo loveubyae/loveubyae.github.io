@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cuidarte</title>
 
+<!--  VERSION -->
+<meta name="app-version" content="1.0.0">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
@@ -13,14 +16,18 @@ html, body{
   overflow:hidden;
 }
 
+/*  bloquear selección */
 body{
+  user-select:none;
+  -webkit-user-select:none;
+
   min-height:100vh;
   height:100svh;
   background:url("Untitled FONDO COMPLETO DE LA WEB.jpg") center/cover no-repeat;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
 }
 
-/* 📱 TELEFONO (PC NORMAL) */
+/*  TELEFONO (PC NORMAL) */
 .phone{
   position:absolute;
   top:50%;
@@ -52,7 +59,7 @@ body{
   pointer-events:none;
 }
 
-/* 🕒 */
+/*  */
 .time-box{
   position:absolute;
   top:6%;
@@ -109,7 +116,7 @@ body{
   border-radius:10px;
 }
 
-/* 🔓 BARRA */
+/*  BARRA */
 .unlock-bar{
   position:absolute;
   bottom:0;
@@ -149,7 +156,7 @@ body{
   to{background-position:-100% 0;}
 }
 
-/* 📱 MOBILE (FIX REAL) */
+/*  MOBILE  */
 @media (max-width:768px){
   .phone{
     width:100vw;
@@ -216,6 +223,9 @@ body{
 </div>
 
 <script>
+const VERSION="1.0.0";
+
+/* TIME */
 function updateTime(){
   const now=new Date();
   time.textContent=now.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:false});
@@ -238,8 +248,7 @@ unlockArea.addEventListener("touchstart", e=>{
 unlockArea.addEventListener("touchmove", e=>{
   if(!isSwiping) return;
 
-  let currentY = e.touches[0].clientY;
-  let diff = startY - currentY;
+  let diff = startY - e.touches[0].clientY;
 
   if(diff > 30){
     unlock();
@@ -247,9 +256,7 @@ unlockArea.addEventListener("touchmove", e=>{
   }
 });
 
-unlockArea.addEventListener("touchend", ()=>{
-  isSwiping = false;
-});
+unlockArea.addEventListener("touchend", ()=> isSwiping=false);
 
 /* PC */
 unlockArea.addEventListener("mousedown", e=>{
@@ -268,9 +275,7 @@ unlockArea.addEventListener("mousemove", e=>{
   }
 });
 
-unlockArea.addEventListener("mouseup", ()=>{
-  isSwiping = false;
-});
+unlockArea.addEventListener("mouseup", ()=> isSwiping=false);
 
 function unlock(){
   const phone=document.querySelector(".phone");
@@ -281,9 +286,26 @@ function unlock(){
   phone.style.filter="blur(6px)";
 
   setTimeout(()=>{
-    window.location.href="home.html";
+    window.location.href="home.html?v="+VERSION;
   },650);
 }
+
+/*  BLOQUEOS (SIN TOCAR DISEÑO) */
+
+/* click derecho */
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+/* F12 + inspect */
+document.addEventListener("keydown",e=>{
+  if(
+    e.key==="F12" ||
+    (e.ctrlKey && e.shiftKey && ["I","J","C"].includes(e.key)) ||
+    (e.ctrlKey && e.key==="U")
+  ){
+    e.preventDefault();
+    return false;
+  }
+});
 </script>
 
 </body>
