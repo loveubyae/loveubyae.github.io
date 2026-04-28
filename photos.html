@@ -27,18 +27,8 @@ body{
   aspect-ratio:9/16;
   overflow:hidden;
   background:#000;
-}
 
-/* TOP BAR */
-.topbar{
-  height:50px;
-  background:linear-gradient(#4c4c4c,#2b2b2b);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  font-weight:600;
+  transition:transform .18s ease-out, opacity .2s linear;
 }
 
 /* GRID */
@@ -47,7 +37,7 @@ body{
   grid-template-columns:repeat(4,1fr);
   gap:2px;
   padding:4px;
-  height:calc(100% - 100px);
+  height:100%;
   overflow:auto;
   background:black;
 }
@@ -59,60 +49,45 @@ body{
   cursor:pointer;
 }
 
-/* BOTTOM BAR */
-.bottombar{
-  height:50px;
-  background:linear-gradient(#2b2b2b,#000);
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  color:#ccc;
-  font-size:12px;
-}
-
 /* VIEWER */
 .viewer{
   position:absolute;
   inset:0;
   background:black;
   display:none;
-  flex-direction:column;
   z-index:999;
 }
 
-/* VIEW IMAGE */
 .viewer img{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   max-width:100%;
   max-height:100%;
-  margin:auto;
-  transition:transform .3s ease;
+
+  transition:transform .2s ease-out;
 }
 
-/* FADE ANIMATION */
-.fadeIn{
-  animation:fade .25s ease;
-}
-
-@keyframes fade{
-  from{opacity:0;}
-  to{opacity:1;}
+/* MOBILE */
+@media (max-width:768px){
+  .phone{
+    width:100vw;
+    height:100dvh;
+    aspect-ratio:auto;
+    top:0;
+    left:0;
+    transform:none;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="phone">
-
-  <div class="topbar">Photos</div>
+<div class="phone" id="phone">
 
   <div class="gallery" id="gallery"></div>
-
-  <div class="bottombar">
-    <span>Photos</span>
-    <span>Albums</span>
-    <span>Places</span>
-  </div>
 
   <div class="viewer" id="viewer">
     <img id="fullImg">
@@ -124,53 +99,59 @@ body{
 const gallery = document.getElementById("gallery");
 const viewer = document.getElementById("viewer");
 const fullImg = document.getElementById("fullImg");
+const phone = document.getElementById("phone");
 
 let currentIndex = 0;
 
-/* 🔥 TODAS TUS IMÁGENES */
+/* 🔥 IMÁGENES */
 const images = [
-"a5b4107dff9f4426aa291ef9d4d7dd63.jpg",
-"6986150b42e3564df5b6073689776e52.jpg",
-"7cb6a6f8ae534157eef45361fc73db5a.jpg",
-"ccedae1137e24032969d3fed39bf20ba.jpg",
-"2944c7acd937521e038c3c8c9c92c5e3.jpg",
-"499662610dc0b920f8516657817fc1.jpg",
-"13bbd427e2ca047950cdbc8a53eeb4b0.jpg",
-"4e85354e94fa6bf05d9e16e67f71eeed.jpg",
-"b2c6f11639fedf2385cce18fa77618c6.jpg",
-"36356c199ce9187c6ee5c4c644f78d59.jpg",
-"abdff1af8fe1d47ba76025f5524956ec.jpg",
-"5cec07c8e16fd9ddd665f9882af38004.jpg",
-"234af183187b0608dc25b9df26716252.jpg",
-"e338cbbb843d12dd946b9e11003edf65.jpg",
-"d0e1d84ad457e9ee48323eb1f5d17a55.jpg",
-"2787745547da2bca453ef0022ff79527.jpg",
-"18a70ace7a553274c001628c316a657f.jpg",
-"14d0c1005d03e7fbe8d409769a1546ac.jpg",
-"3567269df24eadcb89c30537fa4d3317.jpg",
-"740d1fa80a6db988838b9725245a4352.jpg",
-"f8dcf3dfa7452a267bbdaf45c87337f7.jpg",
-"59f1b153d560b92eb5d4845a0381364a.jpg",
-"4596473c2298ff4486da13c98bebd4ab.jpg",
-"bcdfdd05419915533c7d73d9023d9403.jpg",
-"a5bce0a77fc16c30fc440a5f7866409.jpg",
-"d064fafb8a52930d89f00d2897bbb7b5.jpg",
-"17f3852a6d56a1ea69438b49dab7441d.jpg",
-"1ab22edfe6280b188acde61352aa2e22.jpg",
-"7f677c2483d47a034c70d0c562ff6e5.jpg",
-"af161e32956c2c27578241052b909c8.jpg",
-"c0ee62dc9f0f9124af9b9f6b3ed16c1c.jpg",
-"0ef281a5f2464955e05fd78472ce5586.jpg",
-"c45c4ff8edbc6c38f6f7d8530264ee3a.jpg",
-"20cf3088885c620b2465e36e87dff43.jpg",
-"33e563c3475eec7e5bed17dec06e42c.jpg",
 "0b04015b70a2d5fb9b2ec735ebce50c3.jpg",
-"f6aeb320d061abf620503a5a4706877f.jpg",
-"19f4667fe05ff0146ed2e8bdfd894fd.jpg",
-"27ed0361f02b3d6803ffa64f8432ecb.jpg"
+"0ef281a5f2464955e05fd78472ce5586.jpg",
+"1ab22edfe6280b188acde61352aa2e22.jpg",
+"4e85354e941a66f05d9e16e67f71eeed.jpg",
+"5cec07c8e16fd9ddd665f9882af38004.jpg",
+"7cb6a6f8ae534157eef45361fc73db5a.jpg",
+"7f677c2483d47a034c70d70c562ff6e5.jpg",
+"13bbd427e2ca047950cdbc8a53eeb4b0.jpg",
+"14d0c1005d03e7fbe8d409769a1546ac.jpg",
+"17f3852a6d56a1ea69438b49dab7441d.jpg",
+"18a70ace7a553274c001628c316a657f.jpg",
+"19f4667fe05ff0146ed2e8bdfd89f4fd.jpg",
+"20cf3088885c620b2465e36e87fdff43.jpg",
+"27ed036f1f02b3d6803ffa64f8432ecb.jpg",
+"33e563c3475eec7e57bed17dec06e42c.jpg",
+"59f1b153d560b92eb5d4845a0381364a.jpg",
+"234af183187b0608dc25b9df26716252.jpg",
+"341b1b7b475a5e85691c2d5c2d6b93fd.jpg",
+"740d1fa80a6db988838b9725245a4352.jpg",
+"29447cad937521e038c3c8c9c92c5e63.jpg",
+"36356c199ce9187c6ee5c4c644f78d59.jpg",
+"3567269df24eadcb89c30537fa4d3317.jpg",
+"4596473c2298ff4486da13c98bebd4ab.jpg",
+"6986150b42e3564df5b6073689776e52.jpg",
+"499662621d0dc0b920f8516657817fc1.jpg",
+"2787745547da2bca453ef0022ff79527.jpg",
+"a5b4107dff9f4426aa291ef9d4d7dd63.jpg",
+"a5bcbea077cf16c30fc440a5f7866409.jpg",
+"abdff1af8fe1d47ba76025f5524956ec.jpg",
+"af161e32956c2c227578241052b909c8.jpg",
+"b2cf611639fedf2385cce18fa77618c6.jpg",
+"bcdfdd05419915533c7d73d9023d9403.jpg",
+"c0ee62dc9f0f9124af9b9f6b3ed16c1c.jpg",
+"c45c4ff8edbc6c38f6f7d8530264ee3a.jpg",
+"cbca8c1cc3ca35ab841d7819e7f7a0aa.jpg",
+"ccedae1137e24032969d3fed39bf20ba.jpg",
+"d0e1d84ad457e9ee48323eb1f5d17a55.jpg",
+"d064fafb8a52930d89f00d2897bbb7b5.jpg",
+"dfe6d0996cdf31e6e46873e4d413570e.jpg",
+"e17dc13cdb7e22db69d2ff572cb75141.jpg",
+"e338cbbb843d12dd946b9e11003def65.jpg",
+"ee702793877f29b8ee14dab06fad5fe9.jpg",
+"f6aeb320d061abf620503a5a470687f7.jpg",
+"f8dcf3fda74b52a267bbdaf45c8733f7.jpg"
 ];
 
-/* GENERAR GRID */
+/* GRID */
 images.forEach((src,index)=>{
   const img = document.createElement("img");
   img.src = src;
@@ -183,19 +164,23 @@ images.forEach((src,index)=>{
   gallery.appendChild(img);
 });
 
-/* ABRIR */
+/* OPEN */
 function openViewer(){
-  viewer.style.display = "flex";
+  viewer.style.display = "block";
+  fullImg.style.transform = "translate(-50%,-50%) scale(0.95)";
   fullImg.src = images[currentIndex];
-  viewer.classList.add("fadeIn");
+
+  setTimeout(()=>{
+    fullImg.style.transform = "translate(-50%,-50%) scale(1)";
+  },20);
 }
 
-/* CERRAR */
+/* CLOSE */
 viewer.onclick = ()=>{
   viewer.style.display = "none";
 };
 
-/* SWIPE */
+/* 📱 SWIPE FOTOS */
 let startX = 0;
 
 viewer.addEventListener("touchstart", e=>{
@@ -214,8 +199,62 @@ viewer.addEventListener("touchend", e=>{
   if(currentIndex < 0) currentIndex = images.length-1;
   if(currentIndex >= images.length) currentIndex = 0;
 
-  fullImg.src = images[currentIndex];
+  fullImg.style.transform = "translate(-50%,-50%) scale(0.95)";
+  setTimeout(()=>{
+    fullImg.src = images[currentIndex];
+    fullImg.style.transform = "translate(-50%,-50%) scale(1)";
+  },80);
 });
+
+/* 🔥 SWIPE BACK */
+let swipeStart = 0;
+let dragging = false;
+
+phone.addEventListener("touchstart", e=>{
+  swipeStart = e.touches[0].clientX;
+  if(swipeStart < 30) dragging = true;
+});
+
+phone.addEventListener("touchmove", e=>{
+  if(!dragging) return;
+
+  let x = e.touches[0].clientX;
+  let diff = x - swipeStart;
+
+  if(diff > 0){
+    phone.style.transform = `translateX(${diff}px)`;
+  }
+});
+
+phone.addEventListener("touchend", e=>{
+  if(!dragging) return;
+  dragging = false;
+
+  let diff = e.changedTouches[0].clientX - swipeStart;
+
+  if(diff > 120){
+    goHome();
+  }else{
+    phone.style.transform = "translateX(0)";
+  }
+});
+
+/* 💻 PC */
+document.addEventListener("keydown", e=>{
+  if(["ArrowLeft","ArrowRight","a","d"].includes(e.key.toLowerCase())){
+    goHome();
+  }
+});
+
+/* 🔥 HOME */
+function goHome(){
+  phone.style.transform = "translateX(100%)";
+  phone.style.opacity = "0";
+
+  setTimeout(()=>{
+    window.location.href = "home.html";
+  },200);
+}
 </script>
 
 </body>
