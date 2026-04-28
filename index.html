@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cuidarte</title> <!-- 🔥 esto controla el nombre del tab -->
-<link rel="icon" type="image/jpeg" href="favicon.jpg">
-<link rel="apple-touch-icon" href="favicon.jpg">
+<title>Cuidarte</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -64,19 +62,18 @@ body{
   position:absolute;
   top:-25px;
   width:100%;
-  height:160px;
+  height:190px;
   background:rgba(0,0,0,0.35);
 }
 
-/* 🔥 HORA MEJORADA */
 .time{
-  font-size:clamp(80px,7vw,96px); /* más grande */
-  font-weight:300; /* más gruesa tipo iOS */
+  font-size:clamp(80px,7vw,96px);
+  font-weight:549;
   letter-spacing:1px;
 }
 
 .date{
-  font-size:clamp(14px,1.2vw,20px);
+  font-size:clamp(20px,1.2vw,20px);
 }
 
 /* 🔔 NOTIFICATIONS */
@@ -95,8 +92,8 @@ body{
   align-items:center;
   gap:14px;
   padding:16px;
-  background:rgba(40,40,40,0.55);
-  backdrop-filter:blur(2px);
+  background:rgba(40,40,40,0.60);
+  backdrop-filter:blur(1.3px);
   color:white;
   border-top:1px solid rgba(255,255,255,0.15);
 }
@@ -107,38 +104,21 @@ body{
   border-radius:10px;
 }
 
-/* 🔓 SLIDER */
-.slider{
+/* 🔓 BARRA */
+.unlock-bar{
   position:absolute;
-  bottom:calc(10px + env(safe-area-inset-bottom));
-  left:50%;
-  transform:translateX(-50%);
-  width:92%;
-  height:95px;
-  border-radius:26px;
-  background:linear-gradient(#3a3a3a,#000);
-  display:flex;
-  align-items:center;
-  padding:10px;
-  z-index:2;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:90px;
+  background:rgba(0,0,0,0.88);
+  z-index:3;
 }
 
-.slider-btn{
-  width:105px;
-  height:75px;
-  border-radius:20px;
-  background:linear-gradient(#fff,#cfcfcf);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:34px;
-  color:#777;
-  touch-action:none;
-  cursor:pointer;
-  z-index:5;
-}
-
-.slider-text{
+/* TEXTO */
+.swipe-text{
+  position:absolute;
+  bottom:28px;
   width:100%;
   text-align:center;
   font-size:26px;
@@ -156,8 +136,7 @@ body{
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 
-  animation:shineMove 3.8s linear infinite;
-  pointer-events:none;
+  animation:shineMove 4.0s linear infinite;
 }
 
 @keyframes shineMove{
@@ -165,13 +144,12 @@ body{
   to{background-position:-100% 0;}
 }
 
-/* 📱 MOBILE FIX */
+/* 📱 MOBILE */
 @media (max-width:768px){
   .phone{
     width:100vw;
     height:100dvh;
     aspect-ratio:auto;
-
     top:0;
     left:0;
     transform:none;
@@ -226,9 +204,9 @@ body{
 
   </div>
 
-  <div class="slider">
-    <div class="slider-btn">→</div>
-    <div class="slider-text">slide to unlock</div>
+  <!-- 🔥 ZONA DE SWIPE -->
+  <div class="unlock-bar" id="unlockArea">
+    <div class="swipe-text">Swipe to unlock</div>
   </div>
 
 </div>
@@ -242,39 +220,52 @@ function updateTime(){
 setInterval(updateTime,1000);
 updateTime();
 
-/* SLIDER */
-const btn=document.querySelector(".slider-btn");
-const slider=document.querySelector(".slider");
-const text=document.querySelector(".slider-text");
+/* 🔥 SWIPE MEJORADO */
+const unlockArea = document.getElementById("unlockArea");
 
-let dragging=false,startX=0;
+let startY = 0;
+let isSwiping = false;
 
-btn.addEventListener("pointerdown",e=>{
-  dragging=true;
-  startX=e.clientX;
+unlockArea.addEventListener("touchstart", e=>{
+  startY = e.touches[0].clientY;
+  isSwiping = true;
 });
 
-window.addEventListener("pointermove",e=>{
-  if(!dragging)return;
+unlockArea.addEventListener("touchmove", e=>{
+  if(!isSwiping) return;
 
-  let dx=e.clientX-startX;
-  let max=slider.offsetWidth-btn.offsetWidth-20;
+  let currentY = e.touches[0].clientY;
+  let diff = startY - currentY;
 
-  if(dx<0)dx=0;
-  if(dx>max)dx=max;
-
-  btn.style.transform=`translateX(${dx}px)`;
-
-  let progress=dx/max;
-  text.style.opacity=1-progress;
-
-  if(dx>=max)unlock();
+  if(diff > 30){
+    unlock();
+    isSwiping = false;
+  }
 });
 
-window.addEventListener("pointerup",()=>{
-  dragging=false;
-  btn.style.transform="translateX(0)";
-  text.style.opacity="1";
+unlockArea.addEventListener("touchend", ()=>{
+  isSwiping = false;
+});
+
+/* PC */
+unlockArea.addEventListener("mousedown", e=>{
+  startY = e.clientY;
+  isSwiping = true;
+});
+
+unlockArea.addEventListener("mousemove", e=>{
+  if(!isSwiping) return;
+
+  let diff = startY - e.clientY;
+
+  if(diff > 30){
+    unlock();
+    isSwiping = false;
+  }
+});
+
+unlockArea.addEventListener("mouseup", ()=>{
+  isSwiping = false;
 });
 
 function unlock(){
